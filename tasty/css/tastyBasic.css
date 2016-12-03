@@ -1,0 +1,63 @@
+body {
+    font-family: "Segoe UI";
+    background-image: url("http://www.zingerbugimages.com/backgrounds/white_parchment_paper_background_1800x1600.jpg");
+    background-color: #fbffb8;
+}
+#masthead {
+    margin-left: auto;
+    margin-right: auto;
+}
+#title {
+    text-justify: auto;
+    text-justify-trim: #222222;
+    color: #eaf2f5;
+    background: linear-gradient(#cc0000, red);
+    font-family: Helvetica;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: xx-large;
+}
+#navlink {
+    color: #2e2e2e;
+}
+#navlink:visited {
+    color: dimgray;
+}
+#navlink:hover {
+    color: #b9dcac;
+    text-decoration: none;
+}
+.datagrid {
+    color: #ffffff;
+    font-size: small;
+    border-spacing: 0px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.datagrid thead {
+    background: linear-gradient(#cc0000, red);
+}
+.datagrid tbody {
+    color: #000000;
+}
+.datagrid tbody tr:nth-child(odd) {
+    background: #ffffff;
+}
+.datagrid tbody tr:nth-child(even) {
+    background: darkgrey;
+}
+.datagrid th {
+    text-transform: uppercase;
+}
+.datagrid td {
+    width: 100px;
+    text-align: center;
+}
+#admin {
+    margin-left: auto;
+    margin-right: auto;
+}
+#map-canvas {
+    width: 500px;
+    height: 400px;
+}

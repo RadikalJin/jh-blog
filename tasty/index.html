@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tasty Chinese Chelmsford</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://s3.amazonaws.com/codecademy-content/projects/bootstrap.min.css">
+    <link href="css/newIndex.css" type="text/css" rel="stylesheet" />
+    <script src="d3.min.js" charset="utf-8"></script>
+    <script src="menuData.js" charset="utf-8"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATcxwZHy2IDZMoOFVzq2tplvqRi_9TUB0"></script>
+</head>
+<script>
+
+    window.onload = function populateMenu() {
+
+        initializeMap();
+
+        for (var i=0; i < data.length; i++) {
+            for (var category in data[i]) {
+                addMenuCategoryToView(category)
+                for (var no in data[i][category]) {
+                    addMenuItemToView(data[i][category][no])
+                }
+            }
+        }
+
+/*        d3.json("https://ibl.api.bbci.co.uk/ibl/v1/atoz/a/programmes?page=1", function(err, res) {
+            if (err) alert("Unable to load menu data.")
+            else renderMenuTable(res)
+        })*/
+    }
+
+
+    function renderMenuTable(data) {
+
+        var food = data.map(function(d) {
+            return [d.id, d.description, d.price]
+        })
+
+        var tr = d3.select("#menuRecords")
+                .selectAll("tr")
+                .data(food)
+        tr.enter()
+                .append("tr")
+
+        var td = tr.selectAll("td")
+                .data(function(d) { return d })
+        td.enter()
+                .append("td")
+        td.text(String)
+    }
+    function addMenuCategoryToView(elem) {
+        console.log("Category: " + elem)
+        $('#myList').append("<li><h3><span>" + elem.toUpperCase() + "</span></h3></span>")
+    }
+
+    function addMenuItemToView(elem) {
+        console.log("Menu item: " + elem.id
+                + " " + elem.title
+                + " " + elem.description
+                + " " + elem.pricing)
+        var toAppend = "<li><h4><span>" + elem.id + ") " + elem.title + "</span></h4>"
+        if (elem.description) toAppend += "<p class=\"date\">" + elem.description + "</p>"
+        toAppend += "<p class=\"date\">" + elem.pricing + "</p></li>"
+        $('#myList').append(toAppend)
+    }
+
+    function initializeMap() {
+        var myLatlng = new google.maps.LatLng(51.7353234, 0.4815513);
+        var mapOptions = {
+            center: myLatlng,
+            zoom: 15,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+        var marker = new google.maps.Marker({
+            position: myLatlng,
+            map: map,
+            title: 'Tasty Chinese Chelmsford'
+        });
+
+        google.maps.event.addDomListener(window, "resize", function() {
+            var center = map.getCenter();
+            google.maps.event.trigger(map, "resize");
+            map.setCenter(center);
+        });
+    }
+
+</script>
+
+<body>
+<div class="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+
+                <span><h1>TASTY</h1></span>
+                <h2>01245-348888</h2>
+                <h3>PEKING & CANTONESE TAKE AWAY</h3>
+
+                <p class="date">10% Discount for Collection Orders</p>
+                <p class="date">Free Delivery Service For Orders Over £10.00 Within a 3 mile radius</p>
+                <p class="date">Free Prawn Crackers For Orders Over £15.00</p>
+                <p class="date">Free Bottle Of Coke For Orders Over £28.00</p>
+
+                </p>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="supporting">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <ul id="myList">
+                </ul>
+            </div>
+            <div class="col-md-4 sidebar"><h3>Open 7 days a week and bank holidays</h3>
+                <ul>
+                    <li><p class="date">Sunday to Thursday:</p> <h4><span>5.00pm - 11.30pm</span></h4></li>
+                    <li><p class="date">Friday & Saturday: </p> <h4><span>5.00pm - 12 midnight</span></h4></li>
+                    <li><p class="date">Delivery Times</p> <h4><span>5.30pm - 11.00pm</span></h4></li>
+                    <li><p class="date">Cheques are not accepted. Cash and cards payment only.</p></li>
+                </ul>
+            </div>
+            <div id="map-canvas"></div>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <div class="container">
+        <ul>
+            <li>124 Springfield Road, Chelmsford, Essex CM2 6LF</li>
+        </ul>
+        <p>01245-348888</p>
+    </div>
+</div>
+</body>
+</html>
