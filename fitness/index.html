@@ -13,6 +13,7 @@
     <link href='http://fonts.googleapis.com/css?family=Oswald:400,300' rel='stylesheet'>
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="../d3.min.js" charset="utf8"></script>
     <script src="app.js"></script>
 </head>
 
@@ -21,14 +22,9 @@
 <body>
 -->
 
-
 <div class="header"></div>
 
 <body class="jh-light-grey">
-
-
-
-
 
 <!-- jh-content defines a container for fixed size centered content,
 and is wrapped around the whole page content, except for the footer in this example -->
@@ -36,64 +32,12 @@ and is wrapped around the whole page content, except for the footer in this exam
 
     <!-- Grid -->
     <div class="jh-row">
-
         <!-- Blog entries -->
         <div class="jh-col l8 s12">
             <!-- Blog entry -->
-            <div class="jh-card-4 jh-margin jh-white">
-                <img src="http://gymbox.com/assets/images/blog/OlympicLift2-Web.jpg" alt="Lifting" style="width:100%">
-                <div class="jh-container jh-padding-8">
-                    <h3><b>Equipment</b></h3>
-                    <h5>Joe, <span class="jh-opacity">November 16, 2016</span></h5>
-                </div>
-
-                <div class="jh-container">
-                    <h2>Equipment</h2>
-                    <p>
-                        Having the right equipment can be the difference between getting a personal best, and getting injured before finishing the race. But proper equipment doesn't have to be expensive. Here are the bare essentials to get started.
-                    </p>
-                    <h2>1) Weights</h2>
-                    <p>
-                        Here, the risk of injury isn't the biggest factor. Instead, you'll be wanting to find a sturdy bar that can take some weight, clamps that can be removed quickly between sets, and a good grip on the handle.
-                    </p>
-                    <h3>Clamps</h3>
-                    <div class="inline-images">
-                        <img width="40%" src="https://images-na.ssl-images-amazon.com/images/I/61ksscfzU6L._SL1500_.jpg">
-                        <img width="40%" src="https://images-na.ssl-images-amazon.com/images/I/71iWA6SRZtL._SL1500_.jpg">
-                    </div>
-                    <div class="jh-row">
-                        <div class="jh-col m8 s12">
-                            <p><button class="jh-btn jh-padding-large jh-white jh-border jh-hover-border-black"><b>READ MORE <C2><BB></b></button></p>
-                        </div>
-                        <div class="jh-col m4 jh-hide-small">
-                            <p><span class="jh-padding-large jh-right"><b>Comments <C2><A0></b> <span class="jh-tag">0</span></span></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+            <div id="post-data" class="jh-card-4 jh-margin jh-white"/>
         </div>
-
-
-        <!--
-        <div class="article">
-                <div class="site-main">
-                        <h2>Equipment</h2>
-                        <p>
-        Having proper equipment can be the difference between getting a personal best, and getting injured before finishing the race. But proper equipment doesn't have to be expensive. Here are the bare essentials to get started.
-                        </p>
-                        <h2>1) Weights</h2>
-                        <p>
-                        Here, the risk of injury isn't the biggest factor. Instead, you'll be wanting to find a sturdy bar that can take some weight, clamps that can be removed quickly between sets, and a good grip on the handle.
-                        </p>
-                        <h3>Clamps</h3>
-                        <div class="inline-images">
-                                <img width="50%" src="https://images-na.ssl-images-amazon.com/images/I/61ksscfzU6L._SL1500_.jpg">
-                                <img width="50%" src="https://images-na.ssl-images-amazon.com/images/I/71iWA6SRZtL._SL1500_.jpg">
-                        </div>
-                </div>
-        </div>
-        -->
+    </div>
 
         <!--
                 <div class="videoWrapper">
@@ -138,7 +82,6 @@ and is wrapped around the whole page content, except for the footer in this exam
     <footer class="jh-container jh-padding-32 jh-margin-top">
         <p id="copyright">Copyright &copy; 2016 Joseph Hoare</p>
     </footer>
-
 
 </body>
 </html>
