@@ -46,7 +46,7 @@ var main = function() {
 $(document).ready(main);
 
 function loadPosts() {
-    d3.json("http://josephhoare.com:8090/posts", function(err, res) {
+    d3.json("http://localhost:8090/posts", function(err, res) {
         if (err) alert("Unable to load post data.")
         else renderPosts(res)
     })
