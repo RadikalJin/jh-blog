@@ -35,15 +35,17 @@
         onload = updateRenderers;
 
         function updateRenderers() {
-            var signedInUser = JSON.parse(sessionStorage.getItem('user'));
+            var signedInUser = JSON.parse(localStorage.getItem('user'));
             if (signedInUser) {
                 $('#signin-link').text(signedInUser.name)
+            } else {
+                $('#signin-link').text("UUUUU")
             }
         }
 
         function onClick() {
             var user = {'name':'Test Username'};
-            sessionStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('user', JSON.stringify(user));
             updateRenderers()
         }
     </script>
