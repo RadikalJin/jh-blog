@@ -46,35 +46,36 @@ var main = function() {
 $(document).ready(main);
 
 function loadPosts() {
-    d3.json("http://josephhoare.com:8090/posts", function(err, res) {
-        if (err) alert("Unable to load post data.")
-        else renderPosts(res)
+    d3.json("http://josephhoare.com:8090/posts/fitness", function(err, res) {
+        if (err) {
+            alert("Unable to load post data.")
+        } else {
+            var json = JSON.parse(res.message)
+            renderPosts(json)
+        }
     })
 }
 
 function renderPosts(data) {
-
-    var posts = data.map(function(d) {
-        var dateRaw = new Date(d.dueDate)
-        var year = dateRaw.getFullYear()
-        var month = dateRaw.getMonth()
-        var date = dateRaw.getDate()
-        d.formattedDate = m_names[month] + ' ' + date + ', ' + year;
-        return d;
-    })
-
-
-
-    var anchor = d3.select("#post-data")
-        .html("<img src=\"" + "http://gymbox.com/assets/images/blog/OlympicLift2-Web.jpg" + "\" style=\"width:100%\">")
-        .appendHTML(getTitleSection(posts[0]))
-        .appendHTML(getContentWrapper(posts[0]))
-        .appendHTML(getEndingSection())
+    for (var i = 0; i < data.length; i++) {
+        var currentPost = data[i];
+        var raw = currentPost.createdDate;
+        currentPost.formattedDate = m_names[raw.month] + ' ' + raw.dayOfMonth + ', ' + raw.year;
+        var anchor = d3.select("#post-data")
+            .html(getImageSection(currentPost))
+            .appendHTML(getTitleSection(currentPost))
+            .appendHTML(getContentWrapper(currentPost))
+            .appendHTML(getEndingSection())
+    }
 }
 
 var m_names = new Array("January", "February", "March",
     "April", "May", "June", "July", "August", "September",
     "October", "November", "December");
+
+function getImageSection(post) {
+    return "<img src=\"" + post.bannerImageURL + "\" style=\"width:100%\">";
+}
 
 function getTitleSection(post) {
     return "<div class=\"jh-container jh-padding-8\">" +
@@ -84,7 +85,7 @@ function getTitleSection(post) {
 }
 
 function getContentWrapper(post) {
-    return "<div class=\"jh-container\"><br>" + post.description + "</div>";
+    return "<div class=\"jh-container\"><br>" + post.content + "</div>";
 }
 
 function getEndingSection() {
