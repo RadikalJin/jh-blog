@@ -10,20 +10,9 @@
 
     <ul class="menu">
         <li><a href="/fitness">Fitness</a></li>
-        <li><a href="#">Philosophy</a></li>
         <li><a href="#">Relationships</a></li>
         <li><a href="#">Art</a></li>
         <li><a href="#">Career</a></li>
-        <li><a href="#">Happiness</a></li>
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle">More <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-                <li><a href="#">Blog</a></li>
-                <li><a href="#">Advertisers</a></li>
-                <li><a href="#">Publishers</a></li>
-                <li><a href="#">About Me</a></li>
-            </ul>
-        </li>
         <li class="jh-hide-small jh-right">
             <a id="signin-link" onclick="onClick()" class="jh-padding-large jh-hover-red">
                 Sign in
@@ -35,7 +24,7 @@
         onload = updateRenderers;
 
         function updateRenderers() {
-            var signedInUser = JSON.parse(localStorage.getItem('user'));
+            var signedInUser = JSON.parse(sessionStorage.getItem('user'));
             if (signedInUser) {
                 $('#signin-link').text(signedInUser.name)
             } else {
@@ -45,7 +34,7 @@
 
         function onClick() {
             var user = {'name':'Test Username'};
-            localStorage.setItem('user', JSON.stringify(user));
+            sessionStorage.setItem('user', JSON.stringify(user));
             updateRenderers()
         }
     </script>

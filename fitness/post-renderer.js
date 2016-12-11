@@ -1,9 +1,4 @@
 var main = function() {
-
-    $('.header').load("../nav.html");
-
-
-
     loadPosts();
 }
 
@@ -43,9 +38,9 @@ function getImageSection(post) {
 
 function getTitleSection(post) {
     return "<div class=\"jh-container jh-padding-8\">" +
-                "<h2><b>" + post.title + "</b></h2>" +
-                "<h5>Joe, <span class=\"jh-opacity\">" + post.formattedDate + "</span></h5>" +
-            "</div>"
+        "<h2><b>" + post.title + "</b></h2>" +
+        "<h5>Joe, <span class=\"jh-opacity\">" + post.formattedDate + "</span></h5>" +
+        "</div>"
 }
 
 function getContentWrapper(post) {
@@ -54,13 +49,13 @@ function getContentWrapper(post) {
 
 function getEndingSection() {
     return "<div class=\"jh-row\">" +
-                "<div class=\"jh-col m8 s12\">" +
-                    "<p><button class=\"jh-btn jh-padding-large jh-white jh-border jh-hover-border-black\"><b>READ MORE <C2><BB></b></button></p>" +
-                "</div>" +
-                "<div class=\"jh-col m4 jh-hide-small\">" +
-                    "<p><span class=\"jh-padding-large jh-right\"><b>Comments <C2><A0></b> <span class=\"jh-tag\">" + 0 + "</span></span></p>" +
-                "</div>" +
-            "</div>"
+        "<div class=\"jh-col m8 s12\">" +
+        "<p><button class=\"jh-btn jh-padding-large jh-white jh-border jh-hover-border-black\"><b>READ MORE <C2><BB></b></button></p>" +
+        "</div>" +
+        "<div class=\"jh-col m4 jh-hide-small\">" +
+        "<p><span class=\"jh-padding-large jh-right\"><b>Comments <C2><A0></b> <span class=\"jh-tag\">" + 0 + "</span></span></p>" +
+        "</div>" +
+        "</div>"
 }
 
 d3.selection.prototype.appendHTML =
