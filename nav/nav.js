@@ -1,5 +1,5 @@
 var main = function() {
-    $('.header').load("nav.html");
+    $('.header').load("/nav/nav.html");
 }
 
 $(document).ready(main);
