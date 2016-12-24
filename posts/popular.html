@@ -1,0 +1,10 @@
+<div class="jh-container jh-padding">
+    <h4 id="popular-posts">Popular Posts</h4>
+</div>
+<ul class="jh-ul jh-white">
+    <li class="jh-padding-16" ng-repeat="post in posts">
+        <img src="{{post.imageURL}}" height="50px" width="50px" alt="Image" class="jh-left jh-margin-right" style="width:50px">
+        <span class="jh-large">{{post.title}}</span><br>
+        <span>{{post.content}}</span>
+    </li>
+</ul>

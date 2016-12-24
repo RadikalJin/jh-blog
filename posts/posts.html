@@ -1,0 +1,26 @@
+<!-- Blog entry -->
+<div id="post-data" ng-repeat="post in posts" class="jh-card-4 jh-margin jh-white">
+    <img ng-src="{{post.bannerImageURL}}" style="width:100%">
+    <div class="jh-container jh-padding-8">
+        <h2><b> {{post.title}} </b></h2>
+        <h5>{{post.userName}}, <span class="jh-opacity"> {{post.formattedDate}} </span></h5>
+    </div>
+    <div class="jh-container" ng-bind-html="post.content | trust"><br></div>
+    <div class="jh-row">
+        <div class="jh-col m8 s12 jh-container">
+            <p>
+                <button class="jh-btn jh-padding-large jh-white jh-border jh-hover-border-black">
+                    <b>READ MORE</b>
+                </button>
+            </p>
+        </div>
+        <div class="jh-col m4 jh-hide-small jh-container">
+            <p>
+                <span class="jh-padding-large jh-right">
+                    <b>Comments</b>
+                    <span class="jh-tag"> 0 </span>
+                </span>
+            </p>
+        </div>
+    </div>
+</div>
