@@ -1,6 +1,12 @@
 var postsModule = angular.module("entriesApp", []);
 
 postsModule.controller("myCtrl", function($scope, $http) {
+    $scope.clickedMoreButton = function() {
+        sessionStorage.setItem('postToEdit', JSON.stringify(this.post));
+        window.location = '/editor';
+        //TODO Change this url
+    }
+
     $scope.$watch("postURL", assignURL, true);
     function assignURL() {
         var url = $scope.postURL;
@@ -16,8 +22,8 @@ postsModule.controller("myCtrl", function($scope, $http) {
             "October", "November", "December");
         for (var i = 0; i < data.length; i++) {
             var currentPost = data[i];
-            var raw = currentPost.createdDate;
-            currentPost.formattedDate = m_names[raw.month] + ' ' + raw.dayOfMonth + ', ' + raw.year;
+            var date = new Date(+parseInt(currentPost.createdDate, 10));
+            currentPost.formattedDate = m_names[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
         }
         return data;
     }
@@ -29,6 +35,9 @@ postsModule.filter("trust", ['$sce', function($sce) {
     }
 }]);
 
+angular.element(document).ready(function() {
+    angular.bootstrap(document.getElementById("App1"), ["entriesApp"]);
+});
 
 
 

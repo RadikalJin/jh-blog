@@ -5,11 +5,15 @@
         <h2><b> {{post.title}} </b></h2>
         <h5>{{post.userName}}, <span class="jh-opacity"> {{post.formattedDate}} </span></h5>
     </div>
-    <div class="jh-container" ng-bind-html="post.content | trust"><br></div>
+    <div class="jh-container" ng-bind-html="post.content | trust"></div>
+    <br>
     <div class="jh-row">
         <div class="jh-col m8 s12 jh-container">
             <p>
-                <button class="jh-btn jh-padding-large jh-white jh-border jh-hover-border-black">
+                <button id="more-button"
+                        class="jh-btn jh-padding-large jh-white jh-border jh-hover-border-black"
+                        ng-click="clickedMoreButton()"
+                        >
                     <b>READ MORE</b>
                 </button>
             </p>
