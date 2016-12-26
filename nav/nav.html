@@ -14,11 +14,11 @@
         <li><a href="#">Art</a></li>
         <li><a href="#">Career</a></li>
         <li class="jh-hide-small jh-right">
-            <a id="signin-link" onclick="onClick()" class="jh-hover-red">
+            <a id="signin-link" onclick="onClickSignIn()" class="jh-hover-red">
                 Sign in
             </a>
         </li>
-        <li><a href="/editor">New Post</a></li>
+        <li><a onclick="onClickNewPost()">New Post</a></li>
     </ul>
     <script>
 
@@ -33,10 +33,15 @@
             }
         }
 
-        function onClick() {
+        function onClickSignIn() {
             var user = {'name':'Test Username'};
             sessionStorage.setItem('user', JSON.stringify(user));
             updateRenderers()
+        }
+
+        function onClickNewPost() {
+            sessionStorage.removeItem('postToEdit');
+            window.location = "http://josephhoare.com/editor";
         }
     </script>
 

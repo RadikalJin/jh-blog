@@ -1,5 +1,5 @@
 var main = function() {
-    $('.header').load("/nav/nav.html");
+    $('.header').load("/jh-blog-ui/nav/nav.html");
 }
 
 $(document).ready(main);

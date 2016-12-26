@@ -32,6 +32,7 @@ editorModule.controller("myCtrl", function($scope, $http) {
             success: function(data) {
                 if (data.status == 'OK') {
                     alert('Post successfully saved');
+                    sessionStorage.removeItem('postToEdit');
                     window.location = returnToURL;
                 } else {
                     alert('Failed creating post: ' + data.status + ', ' + data.errorMessage);
