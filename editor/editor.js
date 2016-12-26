@@ -70,10 +70,13 @@ function getPosts() {
             "October", "November", "December");
         for (var i = 0; i < data.length; i++) {
             var currentPost = data[i];
+            var date;
             if (typeof currentPost.formattedDate === 'undefined') {
-                var date = new Date(+parseInt(currentPost.createdDate, 10));
-                currentPost.formattedDate = m_names[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
+                date = currentPost.createdDate;
+            } else {
+                date = new Date(+parseInt(currentPost.createdDate, 10));
             }
+            currentPost.formattedDate = m_names[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
         }
         return data;
     }
