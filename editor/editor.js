@@ -70,7 +70,7 @@ function getPosts() {
             "October", "November", "December");
         for (var i = 0; i < data.length; i++) {
             var currentPost = data[i];
-            var date = new Date(+parseInt(currentPost.createdDate, 10));
+            var date = currentPost.createdDate;
             currentPost.formattedDate = m_names[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
         }
         return data;
