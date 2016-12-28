@@ -12,7 +12,7 @@ postsModule.controller("myCtrl", function($scope, $http) {
         var url = $scope.postURL;
         $http.post(url).then(function(response) {
             var posts = JSON.parse(response.data.message);
-            $.getScript('scripts/dateUtils.js', function() {
+            $.getScript('../scripts/dateUtils.js', function() {
                 posts = addFormattedDateToPosts(posts);
                 $scope.posts = posts;
             });
