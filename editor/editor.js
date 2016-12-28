@@ -35,7 +35,7 @@ editorModule.controller("myCtrl", function($scope, $http) {
                     sessionStorage.removeItem('postToEdit');
                     window.location = returnToURL;
                 } else {
-                    alert('Failed creating post: ' + data.status + ', ' + data.errorMessage);
+                    alert('Failed creating post: ' + data.status + ', ' + data.message);
                 }
             }
         });
@@ -53,7 +53,7 @@ function getPosts() {
     function retrieveOrInitPosts() {
         var savedPost = sessionStorage.getItem('postToEdit');
         if (savedPost == undefined) {
-            return [{createdDate: new Date()}];
+            return [{createdDate: new Date().getTime()}];
         } else {
             return [JSON.parse(savedPost)];
         }
