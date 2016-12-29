@@ -2,55 +2,43 @@ var editorModule = angular.module("editorApp", []);
 
 editorModule.controller("myCtrl", function($scope, $http) {
 
-    getBlogReferenceData();
+    getBlogReferenceData($scope, $http);
     getPosts($scope);
 
-    //$('#more-button').attr('disabled', 'true'); TODO
-
-    function getBlogReferenceData() {
-        var blogsURL = 'http://josephhoare.com:8090/blogs';
-        $http.post(blogsURL).then(function(response) {
-            var blogs = JSON.parse(response.data.message);
-            $scope.blogs = blogs;
-            if ($scope.selectedBlog == undefined) {
-                $scope.selectedBlog = $scope.blogs[0];
-            }
-        });
-    }
+    window.addEventListener("load", function() {
+        $('#more-button').attr('disabled', 'true');
+        $('#more-button').attr('title', 'The Read More button is disabled while editing');
+    }, false);
 
     $scope.savePost = function() {
         var post = $scope.posts[0];
         post.blogId = $scope.selectedBlog.id;
         delete post.formattedDate;
-        var returnToURL = "http://josephhoare.com/" + getURLByBlogId(post.blogId);
-        var sendToURL = getSendToURLByPost(post);
-        $.ajax({
-            type: "POST",
-            url: sendToURL,
-            data: JSON.stringify(post),
-            contentType: 'application/json',
-            success: function(data) {
-                if (data.status == 'OK') {
-                    alert('Post successfully saved');
-                    sessionStorage.removeItem('postToEdit');
-                    window.location = returnToURL;
-                } else {
-                    alert('Failed creating post: ' + data.status + ', ' + data.message);
-                }
-            }
+        loadScript("../scripts/locationUtils.js", function() {
+            var returnToURL =  getReturnToURLByBlogId(post.blogId);
+            var sendToURL = getSendToURLByPost(post);
+            callSavePostService(sendToURL, post, returnToURL);
         });
     }
 });
 
+function getBlogReferenceData(scope, http) {
+    var blogsURL = 'http://josephhoare.com:8090/blogs';
+    http.post(blogsURL).then(function(response) {
+        var blogs = JSON.parse(response.data.message);
+        scope.blogs = blogs;
+        if (scope.selectedBlog == undefined) {
+            scope.selectedBlog = scope.blogs[0];
+        }
+    });
+}
 
 function getPosts(scope) {
-
-    var posts = retrieveOrInitPosts();
-    posts = setUserDetails(posts);
-    loadScript("http://josephhoare.com/scripts/dateUtils.js", function() {
+    loadScript("../scripts/dateUtils.js", function() {
+        var posts = retrieveOrInitPosts();
+        posts = setUserDetails(posts);
         scope.posts = addFormattedDateToPosts(posts);
     });
-
     function retrieveOrInitPosts() {
         var savedPost = sessionStorage.getItem('postToEdit');
         if (savedPost == undefined) {
@@ -67,27 +55,22 @@ function getPosts(scope) {
     }
 }
 
-
-function getURLByBlogId(blogId) {
-    var result = '';
-    switch(blogId) {
-        case '1':
-            result = 'fitness';
-            break;
-        default:
-            result = undefined;
-    }
-    return result;
-}
-
-function getSendToURLByPost(post) {
-    var extension;
-    if (post.id) {
-        extension = 'updatePost';
-    } else {
-        extension = 'createPost';
-    }
-    return 'http://josephhoare.com:8090/' + extension;
+function callSavePostService(sendToURL, post, returnToURL) {
+    $.ajax({
+        type: "POST",
+        url: sendToURL,
+        data: JSON.stringify(post),
+        contentType: 'application/json',
+        success: function(data) {
+            if (data.status == 'OK') {
+                alert('Post successfully saved');
+                sessionStorage.removeItem('postToEdit');
+                window.location = returnToURL;
+            } else {
+                alert('Failed creating post: ' + data.status + ', ' + data.message);
+            }
+        }
+    });
 }
 
 editorModule.filter("trust", ['$sce', function($sce) {
@@ -95,21 +78,3 @@ editorModule.filter("trust", ['$sce', function($sce) {
         return $sce.trustAsHtml(htmlCode);
     }
 }]);
-
-function loadScript(url, callback) {
-    // Adding the script tag to the head as suggested before
-    var head = document.getElementsByTagName('head')[0];
-    var script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = url;
-
-    // Then bind the event to the callback function.
-    // There are several events for cross browser compatibility.
-    script.onreadystatechange = callback;
-    script.onload = callback;
-
-    // Fire the loading
-    head.appendChild(script);
-}
-
-

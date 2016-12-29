@@ -1,3 +1,7 @@
+function getReturnToURLByBlogId(blogId) {
+    return "http://josephhoare.com/" + getURLByBlogId(blogId);
+}
+
 function getURLByBlogId(blogId) {
     var result = '';
     switch(blogId) {
