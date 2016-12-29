@@ -1,6 +1,10 @@
 var postsModule = angular.module("entriesApp", []);
 
 postsModule.controller("myCtrl", function($scope, $http) {
+    window.addEventListener("load", function() {
+        $scope.$apply();
+    }, false);
+
     $scope.clickedMoreButton = function() {
         sessionStorage.setItem('postToEdit', JSON.stringify(this.post));
         window.location = '../editor';
