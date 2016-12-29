@@ -13,6 +13,7 @@ postsModule.controller("myCtrl", function($scope, $http) {
             var posts = JSON.parse(response.data.message);
             loadScript("http://josephhoare.com/scripts/dateUtils.js", function() {
                 $scope.posts = addFormattedDateToPosts(posts);
+                $scope.$apply();
             });
         });
     };
