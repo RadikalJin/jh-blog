@@ -47,8 +47,9 @@ function getPosts() {
 
     var posts = retrieveOrInitPosts();
     posts = setUserDetails(posts);
-    posts = formatDates(posts, true);
-    return posts;
+    $.getScript("http://josephhoare.com/scripts/dateUtils.js",function(){
+        return addFormattedDateToPosts(posts);
+    });
 
     function retrieveOrInitPosts() {
         var savedPost = sessionStorage.getItem('postToEdit');
@@ -62,17 +63,6 @@ function getPosts() {
         //TODO Get below username and id from global state
         data[0].userName = 'SamSilver';
         data[0].userId = '1';
-        return data;
-    }
-    function formatDates(data) {
-        var m_names = new Array("January", "February", "March",
-            "April", "May", "June", "July", "August", "September",
-            "October", "November", "December");
-        for (var i = 0; i < data.length; i++) {
-            var currentPost = data[i];
-            var date = new Date(+parseInt(currentPost.createdDate, 10));
-            currentPost.formattedDate = m_names[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
-        }
         return data;
     }
 }
