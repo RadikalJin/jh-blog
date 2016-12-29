@@ -3,7 +3,7 @@ var editorModule = angular.module("editorApp", []);
 editorModule.controller("myCtrl", function($scope, $http) {
 
     getBlogReferenceData();
-    $scope.posts = getPosts();
+    getPosts($scope);
 
     //$('#more-button').attr('disabled', 'true'); TODO
 
@@ -43,12 +43,12 @@ editorModule.controller("myCtrl", function($scope, $http) {
 });
 
 
-function getPosts() {
+function getPosts(scope) {
 
     var posts = retrieveOrInitPosts();
     posts = setUserDetails(posts);
-    $.getScript("http://josephhoare.com/scripts/dateUtils.js",function(){
-        return addFormattedDateToPosts(posts);
+    loadScript("http://josephhoare.com/scripts/dateUtils.js", function() {
+        scope.posts = addFormattedDateToPosts(posts);
     });
 
     function retrieveOrInitPosts() {
@@ -96,6 +96,20 @@ editorModule.filter("trust", ['$sce', function($sce) {
     }
 }]);
 
+function loadScript(url, callback) {
+    // Adding the script tag to the head as suggested before
+    var head = document.getElementsByTagName('head')[0];
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = url;
 
+    // Then bind the event to the callback function.
+    // There are several events for cross browser compatibility.
+    script.onreadystatechange = callback;
+    script.onload = callback;
+
+    // Fire the loading
+    head.appendChild(script);
+}
 
 
