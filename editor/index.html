@@ -47,8 +47,24 @@
                                               class="jh-input"
                                               required
                                               ng-model="post.content"></textarea></p>
-                        <button type="submit" ng-click="savePost()" >Submit</button>
                     </form>
+                        <div class="jh-row">
+                            <div class="jh-right">
+                                <button id="deleteButton"
+                                        style="display: none;"
+                                        class="jh-btn jh-padding-large jh-white jh-border jh-hover-border-black"
+                                        type="submit"
+                                        ng-click="deletePost()">
+                                    <b>Delete</b>
+                                </button>
+                                <button id="submitButton"
+                                        class="jh-btn jh-padding-large jh-white jh-border jh-hover-border-black"
+                                        type="submit"
+                                        ng-click="savePost()">
+                                    <b>Submit</b>
+                                </button>
+                            </div>
+                        </div>
                 </div>
             </div>
         </div>

@@ -6,6 +6,9 @@ editorModule.controller("myCtrl", function($scope, $http) {
     getPosts($scope);
 
     window.addEventListener("load", function() {
+        if ($scope.posts[0].id) {
+            document.getElementById('deleteButton').style.display = 'inline';
+        }
         $('#more-button').attr('disabled', 'true');
         $('#more-button').attr('title', 'The Read More button is disabled while editing');
     }, false);
@@ -16,9 +19,23 @@ editorModule.controller("myCtrl", function($scope, $http) {
         delete post.formattedDate;
         loadScript("../scripts/locationUtils.js", function() {
             var returnToURL =  getReturnToURLByBlogId(post.blogId);
-            var sendToURL = getSendToURLByPost(post);
-            callSavePostService(sendToURL, post, returnToURL);
+            var action = post.id ? 'update' : 'create';
+            var pastVerb = getPastVerbByAction(action);
+            var sendToURL = getSendToURLByAction(action);
+            callSavePostService(sendToURL, post, returnToURL, pastVerb, action);
         });
+    }
+
+    $scope.deletePost = function() {
+        if (window.confirm("Are you sure you want to delete this post?")) {
+            var post = $scope.posts[0];
+            post.blogId = $scope.selectedBlog.id;
+            loadScript("../scripts/locationUtils.js", function () {
+                var returnToURL = getReturnToURLByBlogId(post.blogId);
+                var sendToURL = getSendToURLByAction('delete') + '/' + post.id;
+                callDeletePostService(sendToURL, post, returnToURL);
+            });
+        }
     }
 });
 
@@ -55,19 +72,27 @@ function getPosts(scope) {
     }
 }
 
-function callSavePostService(sendToURL, post, returnToURL) {
+function callSavePostService(sendToURL, post, returnToURL, pastVerb, presentVerb) {
+    callService(sendToURL, JSON.stringify(post), returnToURL, pastVerb, presentVerb);
+}
+
+function callDeletePostService(sendToURL, post, returnToURL) {
+    callService(sendToURL, JSON.stringify(post), returnToURL, 'deleted', 'delete');
+}
+
+function callService(sendToURL, data, returnToURL, pastVerb, presentVerb) {
     $.ajax({
         type: "POST",
         url: sendToURL,
-        data: JSON.stringify(post),
+        data: data,
         contentType: 'application/json',
         success: function(data) {
             if (data.status == 'OK') {
-                alert('Post successfully saved');
+                alert('Post successfully ' + pastVerb);
                 sessionStorage.removeItem('postToEdit');
                 window.location = returnToURL;
             } else {
-                alert('Failed creating post: ' + data.status + ', ' + data.message);
+                alert('Failed to ' + presentVerb + ' post: ' + data.status + ', ' + data.message);
             }
         }
     });

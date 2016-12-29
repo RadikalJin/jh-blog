@@ -1,6 +1,16 @@
 <!-- Blog entry -->
 <div id="post-data" ng-repeat="post in posts" class="jh-card-4 jh-margin jh-white">
-    <img ng-src="{{post.bannerImageURL}}" style="width:100%">
+    <div class="img-holder" style="position: relative">
+        <img ng-src="{{post.bannerImageURL}}" style="width:100%" onerror="this.src='https://b2.burst.zone/wp-content/uploads/2013/07/no-image-found.jpg'">
+        <div class="button-holder" style="position: absolute; top: 0px; right: 0px; width: 25%; height: 25%">
+            <button class="edit-button"
+                    ng-click="clickedEditButton()"
+                    style="display: none; position: absolute; top: 10px; right: 10px"
+                    >
+                <b>EDIT</b>
+            </button>
+        </div>
+    </div>
     <div class="jh-container jh-padding-8">
         <h2><b> {{post.title}} </b></h2>
         <h5>{{post.userName}}, <span class="jh-opacity"> {{post.formattedDate}} </span></h5>

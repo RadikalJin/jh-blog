@@ -14,12 +14,29 @@ function getURLByBlogId(blogId) {
     return result;
 }
 
-function getSendToURLByPost(post) {
+function getSendToURLByAction(action) {
     var extension;
-    if (post.id) {
-        extension = 'updatePost';
-    } else {
-        extension = 'createPost';
+    switch(action) {
+        case 'create':
+            extension = 'createPost';
+            break;
+        case 'update':
+            extension = 'updatePost';
+            break;
+        case 'delete':
+            extension = 'deletePost';
+            break;
+        default :
+            return undefined;
     }
     return 'http://josephhoare.com:8090/' + extension;
+}
+
+function getPastVerbByAction(action) {
+    switch(action) {
+        case 'create': return 'created';
+        case 'update': return 'updated';
+        case 'delete': return 'deleted';
+        default : return undefined;
+    }
 }

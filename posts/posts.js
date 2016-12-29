@@ -5,7 +5,19 @@ postsModule.controller("myCtrl", function($scope, $http) {
         $scope.$apply();
     }, false);
 
-    $scope.clickedMoreButton = function() {
+     $(document).on('mouseenter', '.button-holder', function () {
+         var editbuttons = document.getElementsByClassName('edit-button');
+         for (var i = 0; i < editbuttons.length; i++) {
+             editbuttons[i].style.display = 'inline';
+         }
+     }).on('mouseleave', '.button-holder', function () {
+         var editbuttons = document.getElementsByClassName('edit-button');
+         for (var i = 0; i < editbuttons.length; i++) {
+             editbuttons[i].style.display = 'none';
+         }
+     });
+
+    $scope.clickedEditButton = function() {
         sessionStorage.setItem('postToEdit', JSON.stringify(this.post));
         window.location = '../editor';
     }
