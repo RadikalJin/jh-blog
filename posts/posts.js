@@ -35,6 +35,19 @@ postsModule.controller("myCtrl", function($scope, $http) {
     };
 });
 
+postsModule.directive("checkImage", function($http) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            attrs.$observe('ngSrc', function(ngSrc) {
+                loadScript("../scripts/advancedUtils.js", function() {
+                    checkImage(ngSrc, element);
+                });
+            });
+        }
+    };
+});
+
 postsModule.filter("trust", ['$sce', function($sce) {
     return function(htmlCode){
         return $sce.trustAsHtml(htmlCode);

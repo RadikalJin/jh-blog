@@ -1,13 +1,13 @@
-var editorModule = angular.module("editorApp", []);
+var editorModule = angular.module("editorApp", ['ngMaterial']);
 
-editorModule.controller("myCtrl", function($scope, $http) {
+editorModule.controller("myCtrl", function($scope, $http, $mdToast, $mdDialog) {
 
     getBlogReferenceData($scope, $http);
     getPosts($scope);
 
     window.addEventListener("load", function() {
-        if ($scope.posts[0].id) {
-            document.getElementById('deleteButton').style.display = 'inline';
+        if (!$scope.posts[0].id) {
+            document.getElementById('deleteButton').style.display = 'none';
         }
         $('#more-button').attr('disabled', 'true');
         $('#more-button').attr('title', 'The Read More button is disabled while editing');
@@ -20,22 +20,25 @@ editorModule.controller("myCtrl", function($scope, $http) {
         loadScript("../scripts/locationUtils.js", function() {
             var returnToURL =  getReturnToURLByBlogId(post.blogId);
             var action = post.id ? 'update' : 'create';
-            var pastVerb = getPastVerbByAction(action);
-            var sendToURL = getSendToURLByAction(action);
-            callSavePostService(sendToURL, post, returnToURL, pastVerb, action);
+            callService(action, post, returnToURL, $mdToast);
         });
     }
 
     $scope.deletePost = function() {
-        if (window.confirm("Are you sure you want to delete this post?")) {
+        var confirm = $mdDialog.confirm()
+            .title('Confirm deletion')
+            .textContent('Are you sure you want to delete this post?')
+            .ok('Delete post')
+            .cancel('Cancel');
+
+        $mdDialog.show(confirm).then(function() {
             var post = $scope.posts[0];
             post.blogId = $scope.selectedBlog.id;
             loadScript("../scripts/locationUtils.js", function () {
                 var returnToURL = getReturnToURLByBlogId(post.blogId);
-                var sendToURL = getSendToURLByAction('delete') + '/' + post.id;
-                callDeletePostService(sendToURL, post, returnToURL);
+                callService('delete', post, returnToURL, $mdToast);
             });
-        }
+        });
     }
 });
 
@@ -72,31 +75,59 @@ function getPosts(scope) {
     }
 }
 
-function callSavePostService(sendToURL, post, returnToURL, pastVerb, presentVerb) {
-    callService(sendToURL, JSON.stringify(post), returnToURL, pastVerb, presentVerb);
-}
-
-function callDeletePostService(sendToURL, post, returnToURL) {
-    callService(sendToURL, JSON.stringify(post), returnToURL, 'deleted', 'delete');
-}
-
-function callService(sendToURL, data, returnToURL, pastVerb, presentVerb) {
+function callService(action, post, returnToURL, mdToast) {
+    var sendToURL = getSendToURLByAction(action);
+    var pastVerb = getPastVerbByAction(action);
     $.ajax({
         type: "POST",
         url: sendToURL,
-        data: data,
+        data: JSON.stringify(post),
         contentType: 'application/json',
         success: function(data) {
             if (data.status == 'OK') {
-                alert('Post successfully ' + pastVerb);
-                sessionStorage.removeItem('postToEdit');
-                window.location = returnToURL;
+                var message = 'Post successfully ' + pastVerb;
+                showToast(mdToast, message, returnToURL);
             } else {
-                alert('Failed to ' + presentVerb + ' post: ' + data.status + ', ' + data.message);
+                var message = 'Failed to ' + action + ' post: ' + data.status + ', ' + data.message;
+                showToast(mdToast, message);
             }
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            var message = 'Failed to ' + action + ' post: ' + thrownError;
+            showToast(mdToast, message);
         }
     });
 }
+
+function showToast(mdToast, message, returnToURL) {
+    mdToast.show(
+        mdToast.simple()
+            .textContent(message)
+            .position('top right')
+    ).then(
+        returnToURL ?
+            setTimeout(function(){afterToast(returnToURL)}, 2000)
+        : ''
+    );
+}
+
+function afterToast(returnToURL) {
+    sessionStorage.removeItem('postToEdit');
+    window.location = returnToURL;
+}
+
+editorModule.directive("checkImage", function($http) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            attrs.$observe('ngSrc', function(ngSrc) {
+                loadScript("../scripts/advancedUtils.js", function() {
+                    checkImage(ngSrc, element);
+                });
+            });
+        }
+    };
+});
 
 editorModule.filter("trust", ['$sce', function($sce) {
     return function(htmlCode){

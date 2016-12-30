@@ -6,7 +6,16 @@
     <link rel="stylesheet" type="text/css" href="../fitness/main.css">
     <link rel="stylesheet" type="text/css" href="../css/main.css">
     <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
+
+    <!-- Angular Material style sheet -->
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+    <!-- Angular Material requires Angular.js Libraries -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="../scripts/globals.js"></script>
     <script src="../nav/nav.js"></script>
@@ -44,6 +53,7 @@
                                               required
                                               ng-model="post.title"></p>
                         <p>Content: <textarea type="text"
+                                              style="resize: vertical"
                                               class="jh-input"
                                               required
                                               ng-model="post.content"></textarea></p>
@@ -51,7 +61,7 @@
                         <div class="jh-row">
                             <div class="jh-right">
                                 <button id="deleteButton"
-                                        style="display: none;"
+                                        style="display: inline;"
                                         class="jh-btn jh-padding-large jh-white jh-border jh-hover-border-black"
                                         type="submit"
                                         ng-click="deletePost()">
