@@ -16,7 +16,12 @@
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
 
+    <!-- Added for tag search section -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-resource.min.js"></script>
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>
     <script src="../scripts/globals.js"></script>
     <script src="../nav/nav.js"></script>
     <script src="editor.js"></script>
@@ -57,15 +62,46 @@
                                               class="jh-input"
                                               required
                                               ng-model="post.content"></textarea></p>
+
+                        <p>Tags:
+                            <md-chips ng-model="tag_ex"
+                                  md-autocomplete-snap
+                                  md-transform-chip="transformChip($chip)"
+                                  md-require-match flex>
+                                <md-autocomplete flex
+                                                 md-selected-item="tag"
+                                                 md-search-text="searchText"
+                                                 md-items="item in searchTag(searchText)"
+                                                 md-item-text="item.tagName"
+                                                 placeholder="Search for Tags">
+                                    <span md-highlight-text="searchText">{{ item.tagName }}</span>
+                                </md-autocomplete>
+                                <md-chip-template>
+                                    <span>
+                                        <strong>{{$chip.tagName}}</strong><em></em>
+                                    </span>
+                                </md-chip-template>
+                            </md-chips>
+                        </p>
+
+
                     </form>
                         <div class="jh-row">
-                            <div class="jh-right">
+                            <div class="jh-left">
                                 <button id="deleteButton"
                                         style="display: inline;"
-                                        class="jh-btn jh-padding-large jh-white jh-border jh-hover-border-black"
+                                        class="jh-btn jh-padding-large jh-red jh-border jh-hover-border-black"
                                         type="submit"
                                         ng-click="deletePost()">
                                     <b>Delete</b>
+                                </button>
+                            </div>
+                            <div class="jh-right">
+                                <button id="cancelButton"
+                                        class="jh-btn jh-padding-large jh-white jh-border jh-hover-border-black"
+                                        type="submit"
+                                        ng-click="cancelButtonClicked()">
+                                    <b>Cancel</b>
                                 </button>
                                 <button id="submitButton"
                                         class="jh-btn jh-padding-large jh-white jh-border jh-hover-border-black"

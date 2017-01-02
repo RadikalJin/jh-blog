@@ -1,0 +1,27 @@
+<div ng-cloak>
+    <div>
+        <div layout="row" style="padding-left: 16px">
+            <md-input-container >
+                <label>Filter by Tags</label>
+                <md-select id="tag-filter"
+                           ng-model="t.selectedTags"
+                           md-on-close="t.onCloseFilter()"
+                           md-on-change="t.onChange()"
+                           placeholder="Tag Filter"
+                           multiple>
+                    <md-select-header>
+                        <input ng-model="t.searchTerm"
+                               type="search"
+                               placeholder="Search for a tag...">
+                    </md-select-header>
+                    <md-optgroup label="tag">
+                        <md-button id="select-all" layout-fill value="all" ng-click="t.selectAll()">Select all</md-button>
+                        <md-button id="select-none" style="display: none" layout-fill value="none" ng-click="t.selectNone()">Select none</md-button>
+                        <md-option ng-value="tag"
+                                   ng-repeat="tag in t.tags | filter:searchTerm">{{tag}}</md-option>
+                    </md-optgroup>
+                </md-select>
+            </md-input-container>
+        </div>
+    </div>
+</div>

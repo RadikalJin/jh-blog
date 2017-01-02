@@ -1,13 +1,18 @@
+<div style="display: none;">{{ text() }}</div>
 <!-- Blog entry -->
-<div id="post-data" ng-repeat="post in posts" class="jh-card-4 jh-margin jh-white">
-    <div class="img-holder" style="position: relative; width:100%">
-        <img check-image ng-src="{{post.bannerImageURL}}" style="width:100%">
-        <div class="button-holder" style="position: absolute; top: 0px; right: 0px; width: 25%; height: 25%">
+<div id="post-data" ng-repeat="post in postsToDisplay track by $index" class="jh-card-4 jh-margin jh-white">
+    <div class="img-holder" style="position: relative; width:100%; background-color: #080808">
+        <img check-image ng-src="{{post.bannerImageURL}}" style="display: block;max-height:500px;max-width: 100%;margin: 0 auto;">
+        <div class="button-holder" ng-mouseover="hoverIn()" ng-mouseleave="hoverOut()" style="position: absolute; top: 0px; right: 0px; width: 25%; height: 25%">
             <button class="edit-button"
+                    ng-show="hoverEdit"
                     ng-click="clickedEditButton()"
-                    style="display: none; position: absolute; top: 10px; right: 10px"
+                    style="position: absolute; top: 10px; right: 10px"
                     >
-                <b>EDIT</b>
+                <img src="https://cdn2.iconfinder.com/data/icons/freecns-cumulus/16/519584-081_Pen-16.png"
+                     alt=""
+                     style="margin-bottom:inherit"
+                        >
             </button>
         </div>
     </div>
@@ -17,6 +22,12 @@
     </div>
     <div class="jh-container" ng-bind-html="post.content | trust"></div>
     <br>
+    <div class="jh-container jh-padding-8" ng-if="postsToDisplay[$index].tags.length > 0">
+        <h3><b>Tags:</b></h3>
+        <md-chips ng-model="postsToDisplay[$index].tags" readonly="true">
+            <md-chip-template>{{$chip.tagName}}</md-chip-template>
+        </md-chips>
+    </div>
     <div class="jh-row">
         <div class="jh-col m8 s12 jh-container">
             <p>

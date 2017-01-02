@@ -1,21 +1,16 @@
-var postsModule = angular.module("entriesApp", []);
+var postsModule = angular.module("entriesApp", ['shared-service', 'ngMaterial']);
 
-postsModule.controller("myCtrl", function($scope, $http) {
+postsModule.controller("myCtrl", function($scope, $http, SharedService) {
     window.addEventListener("load", function() {
         $scope.$apply();
     }, false);
 
-     $(document).on('mouseenter', '.button-holder', function () {
-         var editbuttons = document.getElementsByClassName('edit-button');
-         for (var i = 0; i < editbuttons.length; i++) {
-             editbuttons[i].style.display = 'inline';
-         }
-     }).on('mouseleave', '.button-holder', function () {
-         var editbuttons = document.getElementsByClassName('edit-button');
-         for (var i = 0; i < editbuttons.length; i++) {
-             editbuttons[i].style.display = 'none';
-         }
-     });
+     $scope.hoverIn = function() {
+         this.hoverEdit = true;
+     }
+     $scope.hoverOut = function() {
+         this.hoverEdit = false;
+     };
 
     $scope.clickedEditButton = function() {
         sessionStorage.setItem('postToEdit', JSON.stringify(this.post));
@@ -28,11 +23,47 @@ postsModule.controller("myCtrl", function($scope, $http) {
         $http.post(url).then(function(response) {
             var posts = JSON.parse(response.data.message);
             loadScript("../scripts/dateUtils.js", function() {
-                $scope.posts = addFormattedDateToPosts(posts);
+                posts = addFormattedDateToPosts(posts);
+                $scope.tagsSearchable = true;
+
+                $scope.allPosts = posts;
+                $scope.postsToDisplay = posts;
                 $scope.$apply();
             });
         });
     };
+
+    $scope.tagsSearchable = false;
+
+    $scope.text = function(){
+        if ($scope.tagsSearchable) {
+            var allPosts = $scope.allPosts;
+            var filteredPosts = [];
+            var tags = SharedService.get();
+
+            var someTagsSet = typeof tags != "undefined" && tags != null && tags.length > 0;
+            if (someTagsSet) {
+                for (var i = 0; i < allPosts.length; i++) {
+                    var currentPost = allPosts[i];
+                    var matchedATag = function(haystack, arr) {
+                        return arr.some(function (v) {
+                            return haystack.indexOf(v) >= 0;
+                        });
+                    };
+                    if (matchedATag(tags, currentPost.tags)) {
+                        filteredPosts.push(currentPost);
+                    }
+                }
+            } else {
+                filteredPosts = allPosts;
+            }
+            $scope.postsToDisplay = filteredPosts;
+        }
+    };
+
+    $scope.change = function(){
+        SharedService.change('app 2 activated')
+    }
 });
 
 postsModule.directive("checkImage", function($http) {
@@ -54,8 +85,5 @@ postsModule.filter("trust", ['$sce', function($sce) {
     }
 }]);
 
-angular.element(document).ready(function() {
-    angular.bootstrap(document.getElementById("App1"), ["entriesApp"]);
-});
 
 

@@ -6,12 +6,25 @@
     <link rel="stylesheet" type="text/css" href="main.css">
     <link rel="stylesheet" type="text/css" href="../css/main.css">
     <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <!-- Angular Material style sheet -->
+    <link rel="stylesheet" href="../resources/angular-material.css">
+    <!-- Angular Material requires Angular.js Libraries -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+    <script src="../resources/angular-material.js"></script>
+
+    <link href="https://material.angularjs.org/1.1.1/docs.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+
     <script src="../scripts/globals.js"></script>
     <script src="../nav/nav.js"></script>
     <script src="../posts/posts.js"></script>
     <script src="../posts/popular.js"></script>
+    <script src="../posts/tagFilter.js"></script>
     <script src="../scripts/konami.js"></script>
 </head>
 
@@ -19,30 +32,40 @@
 
 <body class="jh-light-grey">
 
-<div id="videoWrapper" style="display: none"></div>
+    <div id="videoWrapper" style="display: none"></div>
 
     <div class="jh-content" style="max-width:1400px">
 
-            <!-- Grid -->
-            <div class="jh-row">
-                <!-- Blog entries -->
-                <div id="App1"
-                     class="jh-col l8 s12"
-                     ng-app="entriesApp"
-                     ng-controller="myCtrl"
-                     ng-include src="'../posts/posts.html'"
-                     ng-init="postURL='http://josephhoare.com:8090/posts/fitness'"/>
-            </div>
+        <div class="jh-row">
+            <!-- Tags -->
+            <div id="AppTags"
+                 class="jh-col l8 s12"
+                 ng-app="tagsApp"
+                 ng-controller="tagsCtrl as t"
+                 ng-include src="'../posts/tagFilter.html'"
+                 ng-init="postURL='http://josephhoare.com:8090/posts/tags'"/>
+        </div>
 
-            <!-- Popular Posts -->
-            <div class="jh-col l4">
-                <div id="App2"
-                     class="jh-card-2 jh-margin"
-                     ng-app="popularApp"
-                     ng-controller="popularCtrl"
-                     ng-include src="'../posts/popular.html'"
-                     ng-init="postURL='http://josephhoare.com:8090/popular-posts/fitness'"/>
-            </div>
+        <!-- Grid -->
+        <div class="jh-row">
+            <!-- Blog entries -->
+            <div id="App1"
+                 class="jh-col l8 s12"
+                 ng-app="entriesApp"
+                 ng-controller="myCtrl"
+                 ng-include src="'../posts/posts.html'"
+                 ng-init="postURL='http://josephhoare.com:8090/posts/fitness'"/>
+        </div>
+
+        <!-- Popular Posts -->
+        <div class="jh-col l4">
+            <div id="App2"
+                 class="jh-card-2 jh-margin"
+                 ng-app="popularApp"
+                 ng-controller="popularCtrl"
+                 ng-include src="'../posts/popular.html'"
+                 ng-init="postURL='http://josephhoare.com:8090/popular-posts/fitness'"/>
+        </div>
 
     </div>
 
