@@ -39,7 +39,7 @@ body {
     background: linear-gradient(#333333, #000000);
     background-repeat: no-repeat;
     background-attachment: fixed;
-    height: 100%;
+    overflow: auto;
     margin: 0;
 }
 
