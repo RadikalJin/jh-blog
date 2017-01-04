@@ -1,12 +1,22 @@
 tagsApp = angular.module('tagsApp', ['ngMaterial', 'shared-service']);
 
 tagsApp
-    .controller('tagsCtrl', function($scope, $element, SharedService) {
+    .controller('tagsCtrl', function($scope, $element, SharedService, $http) {
 
         var t = this;
 
         t.searchTerm = '';
-        t.tags = ['Run Report' ,'Swimming' ,'Running' ,'Cycling' ,'Advice', 'Triathlon'];
+        t.tags = ['test'];
+        function getTagsReferenceData() {
+            var blogName = 'fitness';
+            var tagURL = 'http://josephhoare.com:8090/blogs/' + blogName + '/tags';
+            $http.post(tagURL).then(function(response) {
+                var tags = JSON.parse(response.data.message);
+                t.tags = tags;
+            });
+        }
+        getTagsReferenceData();
+
         t.selectedTags = [];
         t.onCloseFilter = function() {
             clearSearchTerm();

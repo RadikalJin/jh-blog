@@ -1,4 +1,14 @@
 <div style="display: none;">{{ text() }}</div>
+<style>
+    .post-content-container {
+        max-height: 200px;
+        overflow: hidden;
+    }
+    .show {
+        overflow: visible;
+        max-height: none;
+    }
+</style>
 <!-- Blog entry -->
 <div id="post-data" ng-repeat="post in postsToDisplay track by $index" class="jh-card-4 jh-margin jh-white">
     <div class="img-holder" style="position: relative; width:100%; background-color: #080808">
@@ -20,7 +30,9 @@
         <h2><b> {{post.title}} </b></h2>
         <h5>{{post.userName}}, <span class="jh-opacity"> {{post.formattedDate}} </span></h5>
     </div>
-    <div class="jh-container" ng-bind-html="post.content | trust"></div>
+    <div class="post-content-container" ng-class="{show: show}">
+        <div class="jh-container" ng-bind-html="post.content | trust"></div>
+    </div>
     <br>
     <div class="jh-container jh-padding-8" ng-if="postsToDisplay[$index].tags.length > 0">
         <h3><b>Tags:</b></h3>
@@ -33,9 +45,10 @@
             <p>
                 <button id="more-button"
                         class="jh-btn jh-padding-large jh-white jh-border jh-hover-border-black"
-                        ng-click="clickedMoreButton()"
+                        ng-click="show = !show"
+                        scroll-on-click
                         >
-                    <b>READ MORE</b>
+                    <b>{{show ? 'READ LESS' : 'READ MORE'}}</b>
                 </button>
             </p>
         </div>

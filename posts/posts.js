@@ -5,17 +5,17 @@ postsModule.controller("myCtrl", function($scope, $http, SharedService) {
         $scope.$apply();
     }, false);
 
-     $scope.hoverIn = function() {
-         this.hoverEdit = true;
-     }
-     $scope.hoverOut = function() {
-         this.hoverEdit = false;
-     };
+    $scope.hoverIn = function() {
+        this.hoverEdit = true;
+    };
+    $scope.hoverOut = function() {
+        this.hoverEdit = false;
+    };
 
     $scope.clickedEditButton = function() {
         sessionStorage.setItem('postToEdit', JSON.stringify(this.post));
         window.location = '../editor';
-    }
+    };
 
     $scope.$watch("postURL", assignURL, true);
     function assignURL() {
@@ -24,6 +24,12 @@ postsModule.controller("myCtrl", function($scope, $http, SharedService) {
             var posts = JSON.parse(response.data.message);
             loadScript("../scripts/dateUtils.js", function() {
                 posts = addFormattedDateToPosts(posts);
+
+                //sort oldest to newest
+                posts.sort(function(a, b){
+                    return b.createdDate - a.createdDate;
+                });
+
                 $scope.tagsSearchable = true;
 
                 $scope.allPosts = posts;
@@ -50,7 +56,9 @@ postsModule.controller("myCtrl", function($scope, $http, SharedService) {
                             return haystack.indexOf(v) >= 0;
                         });
                     };
-                    if (matchedATag(tags, currentPost.tags)) {
+                    var hayStackTagNames = tags.map(function(a) { return a.tagName});
+                    var needleTagNames = currentPost.tags.map(function(a) { return a.tagName});
+                    if (matchedATag(hayStackTagNames, needleTagNames)) {
                         filteredPosts.push(currentPost);
                     }
                 }
@@ -85,5 +93,15 @@ postsModule.filter("trust", ['$sce', function($sce) {
     }
 }]);
 
+postsModule.directive('scrollOnClick', function() {
+    return {
+        restrict: 'A',
+        link: function(scope, $elm) {
+            $elm.on('click', function() {
+                $("body").animate({scrollTop: $elm.offset().top}, "slow");
+            });
+        }
+    }
+});
 
 

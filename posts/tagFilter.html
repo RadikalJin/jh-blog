@@ -18,7 +18,7 @@
                         <md-button id="select-all" layout-fill value="all" ng-click="t.selectAll()">Select all</md-button>
                         <md-button id="select-none" style="display: none" layout-fill value="none" ng-click="t.selectNone()">Select none</md-button>
                         <md-option ng-value="tag"
-                                   ng-repeat="tag in t.tags | filter:searchTerm">{{tag}}</md-option>
+                                   ng-repeat="tag in t.tags | filter:searchTerm">{{tag.tagName}}</md-option>
                     </md-optgroup>
                 </md-select>
             </md-input-container>
