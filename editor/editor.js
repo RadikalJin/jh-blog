@@ -127,7 +127,8 @@ function getPosts(scope) {
                 createdDate: new Date().getTime(),
                 //TODO Get below username and id from global state
                 userName: 'SamSilver',
-                userId: '1'
+                userId: '1',
+                tags: []
             }];
         } else {
             return [JSON.parse(savedPost)];
