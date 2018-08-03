@@ -7,7 +7,7 @@ popularModule.controller("popularCtrl", function($scope, $http) {
         var posts = [];
         for (var i = 1; i < 5; i++) {
             posts.push({
-                imageURL: 'http://gymbox.com/assets/images/blog/OlympicLift2-Web.jpg',
+                imageURL: 'https://increasify.com.au/wp-content/uploads/2016/08/default-image.png',
                 title: 'Sample ' + i,
                 content: 'Test text here'
             });
